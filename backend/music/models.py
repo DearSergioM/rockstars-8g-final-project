@@ -25,7 +25,7 @@ class Singer(models.Model):
 class Album(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200, null=True, blank=True)
-    #image =
+    image = models.ImageField(null=True, blank=True)
     singer = models.ForeignKey(Singer, on_delete=models.SET_NULL, null=True)
     year = models.IntegerField(null=True, blank=True, default=0)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
