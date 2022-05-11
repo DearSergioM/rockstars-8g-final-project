@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .models import Album
 from .albums import albums
+from .serializers import AlbumSerializer
 # Create your views here.
 
 @api_view(['GET'])
@@ -11,15 +13,13 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getAlbums(request):
-    return Response(albums)
+    albums = Album.objects.all()
+    serializer = AlbumSerializer(albums, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getAlbum(request, pk):
-    album = None
-    for i in albums:
-        if i['_id'] == pk:
-            album = i
-            break
-
-
-    return Response(album)
+    album = Album.objects.get(_id=pk)
+    serializer = AlbumSerializer(album, many=False)
+    return Response(serializer.data)
