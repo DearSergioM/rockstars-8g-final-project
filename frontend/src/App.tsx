@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 
 import HomeScreen from "./pages/HomeScreen";
 import Album from "./pages/AlbumScreen";
+import Cart from "./pages/CartScreen";
 
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
             {" "}
             <Route path="/" element={<HomeScreen />} />
             <Route path="/album/:id" element={<Album />} />
+            <Route path="/cart/:id" element={<Cart />} />
+
           </Routes>
         </Container>
       </main>

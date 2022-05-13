@@ -1,35 +1,36 @@
 import React, {useState, useEffect} from 'react'
 import {Row, Col} from 'react-bootstrap'
 import Album from '../components/Album'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { listAlbums } from '../actions/albumActions'
 
 function HomeScreen() {
-  const [albums, setAlbums] = useState<any[]>([])
+  const dispatch = useDispatch()
+  const albumList:any = useSelector<any>((state) => state.albumList);
+  const { error , loading, albums } = albumList
 
   useEffect(()=> {
-    console.log('useEffect triggered')
-
-    async function fetchAlbums(){
-      const { data } = await axios.get('/api/albums/')
-      setAlbums(data)
-    }
-
-    fetchAlbums()
-
+    dispatch(listAlbums() as any)
   }, [])
 
   return (
     <div>
         <h1>Music</h1>
-        <Row>
-            {albums.map(album => (
-                <Col key={album._id} sm={12} md={6} lg={4} xl={3}>
+        {loading? <Loader/>
+          : error ? <Message variant='danger'>{error}</Message> 
+            : 
+            <Row>
+              {albums.map((album: { _id: React.Key | null | undefined }) => (
+                  <Col key={album._id} sm={12} md={6} lg={4} xl={3}>
                     <Album album={album} />
-                </Col>
-            ))}
-        </Row>
+                  </Col>
+              ))}
+          </Row>
+        } 
     </div>
   )
 }
-
 export default HomeScreen
