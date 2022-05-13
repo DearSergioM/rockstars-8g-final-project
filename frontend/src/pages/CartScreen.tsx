@@ -3,7 +3,7 @@ import { Link, useLocation, useParams,useNavigate  } from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {Row, Col, Image, ListGroup, Button, Card, Form} from 'react-bootstrap'
 import Message from '../components/Message'
-import { addToCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 function Cart() {
   const match = useParams();
@@ -30,6 +30,7 @@ function Cart() {
 
   const removeFromCartHandler = (id:any) => {
     console.log('remove', id)
+    dispatch(removeFromCart(id) as any)
   }
 
   const checkoutHandler = () => {
